@@ -11,9 +11,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Content is required" }, { status: 400 });
     }
 
-    const model = "gemini-2.0-flash"; // Latest Flash model
+    if (!apiKey) {
+      console.error("GEMINI_API_KEY is missing in environment variables");
+      return NextResponse.json({ error: "API Key is not configured on the server" }, { status: 500 });
+    }
 
-    const url = `${baseUrl}/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const model = "gemini-2.0-flash";
+    // Ensure baseUrl doesn't have a trailing slash to avoid double slashes
+    const sanitizedBaseUrl = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    const url = `${sanitizedBaseUrl}/v1beta/models/${model}:generateContent?key=${apiKey}`;
+
 
     const prompt = `你好，你是一个“图文知识卡片策划与结构化输出”助手。你的任务是把用户输入的文本，转成用于知识卡片展示的结构化 JSON。
 
