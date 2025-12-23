@@ -1,4 +1,9 @@
+/**
+ * Cardify AI - Main Page
+ * Triggering a fresh build for Vercel deployment.
+ */
 "use client";
+
 
 import { useState } from "react";
 import { Sparkles, Type, Palette, Layout as LayoutIcon, AlertCircle, RefreshCcw } from "lucide-react";
